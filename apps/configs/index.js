@@ -28,7 +28,7 @@ exports.CONFIG = {
     development: {
       username: 'root',
       password: 'v4l3nt1n3d4y14022024',
-      database: 'fresh-online',
+      database: 'fresh',
       host: 'localhost',
       dialect: 'mysql',
       logging: process.env.DB_LOG === 'true'
