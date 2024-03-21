@@ -7,7 +7,7 @@ const configs_1 = require("../../configs");
 const uploadFile = async (req, res) => {
     try {
         const filePath = req.file.path;
-        const fileUrl = `http://localhost:${configs_1.CONFIG.port}/${filePath}`;
+        const fileUrl = `${configs_1.CONFIG.appUrl}/${filePath}`;
         res.json({ message: 'File uploaded successfully!', fileUrl });
     }
     catch (error) {

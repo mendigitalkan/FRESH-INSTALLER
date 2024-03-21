@@ -9,28 +9,34 @@ exports.uploadFileRoutes = void 0;
 const express_1 = __importDefault(require("express"));
 const upload_file_1 = require("../../controllers/upload-file");
 const upload_file_2 = require("../../middlewares/upload-file");
-const http_status_codes_1 = require("http-status-codes");
-const configs_1 = require("../../configs");
-const response_1 = require("../../utilities/response");
-const checkFileSizeMidleWare = (req, res, next) => {
-    try {
-        if (req.file != null) {
-            const fileSizeKiloBytes = req.file.size / 1024;
-            if (fileSizeKiloBytes > +configs_1.CONFIG.maximumUploadFile) {
-                throw Error('maksimum file 2mb');
-            }
-            next();
-        }
-    }
-    catch (error) {
-        const message = 'maksimum file 2mbw';
-        const response = response_1.ResponseData.error(message);
-        return res.status(http_status_codes_1.StatusCodes.UNAUTHORIZED).json(response);
-    }
-};
+// import { StatusCodes } from 'http-status-codes'
+// import { CONFIG } from '../../configs'
+// import { ResponseData } from '../../utilities/response'
+// const checkFileSizeMidleWare = (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     console.log('cehck')
+//     console.log(req.file)
+//     console.log(req.body)
+//     if (req.file != null) {
+//       const fileSizeKiloBytes = req.file.size / 1024
+//       if (fileSizeKiloBytes > +CONFIG.maximumUploadFile) {
+//         console.log('maksimum file 2mb')
+//         throw Error('maksimum file 2mb')
+//       }
+//       next()
+//     }
+//   } catch (error: any) {
+//     console.log(error)
+//     const message = 'maksimum file 2mb'
+//     const response = ResponseData.error(message)
+//     return res.status(StatusCodes.UNAUTHORIZED).json(response)
+//   }
+// }
 const uploadFileRoutes = (app) => {
-    const route = express_1.default.Router();
-    app.use('/upload-file', route);
-    route.post('/', checkFileSizeMidleWare, upload_file_2.uploadMidleWare.single('file'), async (req, res) => await (0, upload_file_1.uploadFile)(req, res));
+    const router = express_1.default.Router();
+    app.use('/api/v1', router);
+    router.post('/upload-file/products-images', 
+    // checkFileSizeMidleWare,
+    upload_file_2.uploadMidleWare.single('file'), async (req, res) => await (0, upload_file_1.uploadFile)(req, res));
 };
 exports.uploadFileRoutes = uploadFileRoutes;
