@@ -22,9 +22,9 @@ exports.CONFIG = {
         token: 'qwerty'
     },
     twilio: {
-        accountSID: 'ACc4e996f25a503516d0b85433d79e779d',
-        authToken: 'eb46f61d0a12248daf2fec31386bd84b',
-        verifyService: 'VA8beb7af5557b444ac8f14dddbedee8a3'
+        accountSID: process.env.TWILIO_ACCOUNT_SID,
+        authToken: process.env.TWILIO_AUTH_TOKEN,
+        verifyService: process.env.TWILIO_VERIFY_SERVICE
     },
     maximumUploadFile: 1024,
     dataBase: {
