@@ -23,9 +23,14 @@ exports.UserModel = _1.sequelize.define('users', {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
-    userPhoneNumber: {
+    userWhatsAppNumber: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
+    },
+    userWhatsAppNumberVerified: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     },
     userPhoto: {
         type: sequelize_1.DataTypes.STRING,
@@ -35,6 +40,15 @@ exports.UserModel = _1.sequelize.define('users', {
         type: sequelize_1.DataTypes.ENUM('user', 'admin', 'superAdmin'),
         allowNull: false,
         defaultValue: 'user'
+    },
+    userCoin: {
+        type: sequelize_1.DataTypes.NUMBER,
+        allowNull: false,
+        defaultValue: 0
+    },
+    userFcmId: {
+        type: sequelize_1.DataTypes.STRING(250),
+        allowNull: true
     }
 }, {
     ..._1.sequelize,

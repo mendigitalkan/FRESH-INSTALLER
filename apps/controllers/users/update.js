@@ -39,11 +39,17 @@ const updateUser = async (req, res) => {
             ...(requestBody?.userPassword?.length > 0 && {
                 userPassword: requestBody?.userPassword
             }),
-            ...(requestBody?.userPhoneNumber?.length > 0 && {
-                userPhoneNumber: requestBody?.userPhoneNumber
+            ...(requestBody?.userWhatsAppNumber?.length > 0 && {
+                userWhatsAppNumber: requestBody?.userWhatsAppNumber
+            }),
+            ...(requestBody?.userWhatsAppNumberVerified.toString()?.length > 0 && {
+                userWhatsAppNumberVerified: requestBody?.userWhatsAppNumberVerified
             }),
             ...(requestBody?.userPhoto?.length > 0 && {
                 userPhoto: requestBody?.userPhoto
+            }),
+            ...(requestBody?.userCoin?.toString().length > 0 && {
+                userCoin: requestBody?.userCoin
             }),
             ...(requestBody?.userRole?.length > 0 && {
                 userRole: requestBody?.userRole

@@ -13,6 +13,8 @@ const transactionRoutes_1 = require("./transactionRoutes");
 const statisticRouter_1 = require("./statisticRouter");
 const cartRouter_1 = require("./cartRouter");
 const settingRouter_1 = require("./settingRouter");
+const notificationRouter_1 = require("./notificationRouter");
+const myAddressRouter_1 = require("./myAddressRouter");
 const appRouterV1 = (app) => {
     app.get('/api/v1', async (req, res) => await (0, controllers_1.index)(req, res));
     (0, upload_file_route_1.uploadFileRoutes)(app);
@@ -22,9 +24,11 @@ const appRouterV1 = (app) => {
     (0, orderRouter_1.orderRoutes)(app);
     (0, categoryRouter_1.categoryRoutes)(app);
     (0, addressRouter_1.addressRoutes)(app);
+    (0, myAddressRouter_1.myAddressRoutes)(app);
     (0, transactionRoutes_1.transactionRoutes)(app);
     (0, statisticRouter_1.statisticRouters)(app);
     (0, cartRouter_1.cartRoutes)(app);
     (0, settingRouter_1.settingRouters)(app);
+    (0, notificationRouter_1.notificationRoutes)(app);
 };
 exports.appRouterV1 = appRouterV1;

@@ -18,6 +18,8 @@ const userRoutes = (app) => {
     router.get('/admins/detail/:userId', middlewares_1.middleware.useAuthorization, async (req, res) => await users_1.UsersController.findDetailAdmin(req, res));
     router.post('/login', async (req, res) => await users_1.UsersController.login(req, res));
     router.post('/register', async (req, res) => await users_1.UsersController.register(req, res));
+    router.post('/whatsapp-verifications', async (req, res) => await users_1.UsersController.createWhatsAppVerification(req, res));
+    router.post('/whatsapp-check-verifications', middlewares_1.middleware.useAuthorization, async (req, res) => await users_1.UsersController.checkWhatsAppVerification(req, res));
     router.patch('/', async (req, res) => await users_1.UsersController.update(req, res));
     router.delete('/', async (req, res) => await users_1.UsersController.remove(req, res));
 };

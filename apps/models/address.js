@@ -16,7 +16,11 @@ exports.AddressesModel = _1.sequelize.define('addresses', {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
-    addressName: {
+    addressUserName: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
+    },
+    addressKontak: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },

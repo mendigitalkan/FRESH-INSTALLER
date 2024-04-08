@@ -99,6 +99,7 @@ const findAllAdmin = async (req, res) => {
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
                 userRole: { [sequelize_1.Op.not]: 'user' },
+                userId: { [sequelize_1.Op.not]: req.body?.user?.userId },
                 ...(Boolean(req.query.search) && {
                     [sequelize_1.Op.or]: [
                         { userName: { [sequelize_1.Op.like]: `%${req.query.search}%` } },
@@ -111,7 +112,9 @@ const findAllAdmin = async (req, res) => {
                 'userId',
                 'userName',
                 'userEmail',
-                'userPhoneNumber',
+                'userWhatsAppNumber',
+                'userWhatsAppNumberVerified',
+                'userCoin',
                 'userRole',
                 'createdAt',
                 'updatedAt'
@@ -153,12 +156,15 @@ const findDetailAdmin = async (req, res) => {
                 userId: { [sequelize_1.Op.eq]: requestParams.userId }
             },
             attributes: [
+                'id',
                 'userId',
                 'userName',
                 'userEmail',
-                'userPhoneNumber',
-                'createdAt',
+                'userWhatsAppNumber',
+                'userWhatsAppNumberVerified',
+                'userCoin',
                 'userRole',
+                'createdAt',
                 'updatedAt'
             ]
         });

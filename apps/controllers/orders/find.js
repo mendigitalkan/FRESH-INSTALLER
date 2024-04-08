@@ -8,6 +8,7 @@ const pagination_1 = require("../../utilities/pagination");
 const requestCheker_1 = require("../../utilities/requestCheker");
 const log_1 = require("../../utilities/log");
 const orders_1 = require("../../models/orders");
+const products_1 = require("../../models/products");
 const findAllOrder = async (req, res) => {
     try {
         const page = new pagination_1.Pagination(parseInt(req.query.page) ?? 0, parseInt(req.query.size) ?? 10);
@@ -18,6 +19,21 @@ const findAllOrder = async (req, res) => {
                     [sequelize_1.Op.or]: [{ orderProductName: { [sequelize_1.Op.like]: `%${req.query.search}%` } }]
                 })
             },
+            include: [
+                {
+                    model: products_1.ProductModel,
+                    attributes: [
+                        'productId',
+                        'productName',
+                        'productImages',
+                        'productDiscount',
+                        'productTotalSale',
+                        'productStock',
+                        'productColors',
+                        'productSizes'
+                    ]
+                }
+            ],
             order: [['id', 'desc']],
             ...(req.query.pagination === 'true' && {
                 limit: page.limit,

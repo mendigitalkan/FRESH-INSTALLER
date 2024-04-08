@@ -11,6 +11,7 @@ const products_1 = require("../../models/products");
 const findAllProducts = async (req, res) => {
     try {
         const page = new pagination_1.Pagination(parseInt(req.query.page) ?? 0, parseInt(req.query.size) ?? 10);
+        console.log('product__________');
         console.log(req.query);
         const result = await products_1.ProductModel.findAndCountAll({
             where: {

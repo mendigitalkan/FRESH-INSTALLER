@@ -11,7 +11,7 @@ const uuid_1 = require("uuid");
 const userRegister = async (req, res) => {
     const requestBody = req.body;
     const emptyField = (0, requestCheker_1.requestChecker)({
-        requireList: ['userName', 'userEmail', 'userPassword', 'userPhoneNumber'],
+        requireList: ['userName', 'userEmail', 'userPassword', 'userWhatsAppNumber'],
         requestData: requestBody
     });
     if (emptyField.length > 0) {
