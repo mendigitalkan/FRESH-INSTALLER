@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = void 0;
+exports.updateUserCoin = exports.updateUser = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const response_1 = require("../../utilities/response");
 const sequelize_1 = require("sequelize");
@@ -42,13 +42,13 @@ const updateUser = async (req, res) => {
             ...(requestBody?.userWhatsAppNumber?.length > 0 && {
                 userWhatsAppNumber: requestBody?.userWhatsAppNumber
             }),
-            ...(requestBody?.userWhatsAppNumberVerified.toString()?.length > 0 && {
+            ...(requestBody?.userWhatsAppNumberVerified && {
                 userWhatsAppNumberVerified: requestBody?.userWhatsAppNumberVerified
             }),
             ...(requestBody?.userPhoto?.length > 0 && {
                 userPhoto: requestBody?.userPhoto
             }),
-            ...(requestBody?.userCoin?.toString().length > 0 && {
+            ...(requestBody?.userCoin > 0 && {
                 userCoin: requestBody?.userCoin
             }),
             ...(requestBody?.userRole?.length > 0 && {
@@ -72,3 +72,40 @@ const updateUser = async (req, res) => {
     }
 };
 exports.updateUser = updateUser;
+const updateUserCoin = async (req, res) => {
+    const requestBody = req.body;
+    const emptyField = (0, requestCheker_1.requestChecker)({
+        requireList: ['userId'],
+        requestData: requestBody
+    });
+    if (emptyField.length > 0) {
+        const message = `invalid request parameter! require (${emptyField})`;
+        const response = response_1.ResponseData.error(message);
+        return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response);
+    }
+    try {
+        const user = await user_1.UserModel.findOne({
+            where: {
+                deleted: { [sequelize_1.Op.eq]: 0 },
+                userId: { [sequelize_1.Op.eq]: requestBody.userId }
+            }
+        });
+        if (user == null) {
+            const message = 'user not found!';
+            const response = response_1.ResponseData.error(message);
+            return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response);
+        }
+        if (requestBody?.userCoin > 0) {
+            user.userCoin += requestBody.userCoin;
+        }
+        const response = response_1.ResponseData.default;
+        response.data = { message: 'success' };
+        return res.status(http_status_codes_1.StatusCodes.OK).json(response);
+    }
+    catch (error) {
+        const message = `unable to process request! error ${error.message}`;
+        const response = response_1.ResponseData.error(message);
+        return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response);
+    }
+};
+exports.updateUserCoin = updateUserCoin;

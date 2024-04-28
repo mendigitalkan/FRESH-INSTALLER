@@ -41,6 +41,9 @@ const updateProduct = async (req, res) => {
             }),
             ...(requestBody.productPrice !== null && {
                 productPrice: requestBody.productPrice
+            }),
+            ...(requestBody.productCategoryName.length > 0 && {
+                productCategoryName: requestBody.productCategoryName
             })
         };
         await products_1.ProductModel.update(newData, {

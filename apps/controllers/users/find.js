@@ -17,7 +17,8 @@ const findAllUser = async (req, res) => {
                 ...(Boolean(req.query.search) && {
                     [sequelize_1.Op.or]: [
                         { userName: { [sequelize_1.Op.like]: `%${req.query.search}%` } },
-                        { userEmail: { [sequelize_1.Op.like]: `%${req.query.search}%` } }
+                        { userEmail: { [sequelize_1.Op.like]: `%${req.query.search}%` } },
+                        { userPartnerCode: { [sequelize_1.Op.like]: `%${req.query.search}%` } }
                     ]
                 })
             },
@@ -26,7 +27,11 @@ const findAllUser = async (req, res) => {
                 'userId',
                 'userName',
                 'userEmail',
-                'userPhoneNumber',
+                'userWhatsAppNumber',
+                'userWhatsAppNumberVerified',
+                'userCoin',
+                'userRole',
+                'userPartnerCode',
                 'createdAt',
                 'updatedAt'
             ],
@@ -67,11 +72,15 @@ const findDetailUser = async (req, res) => {
                 userId: { [sequelize_1.Op.eq]: requestParams.userId }
             },
             attributes: [
+                'id',
                 'userId',
                 'userName',
                 'userEmail',
-                'userPhoneNumber',
+                'userWhatsAppNumber',
+                'userWhatsAppNumberVerified',
+                'userCoin',
                 'userRole',
+                'userPartnerCode',
                 'createdAt',
                 'updatedAt'
             ]

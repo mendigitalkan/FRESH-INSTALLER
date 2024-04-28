@@ -12,8 +12,7 @@ const addresses_1 = require("../../controllers/addresses");
 const addressRoutes = (app) => {
     const router = express_1.default.Router();
     app.use('/api/v1/addresses', middlewares_1.middleware.useAuthorization, router);
-    router.get('/', async (req, res) => await addresses_1.addressController.findAll(req, res));
-    router.get('/detail/:addressId', async (req, res) => await addresses_1.addressController.findOne(req, res));
+    router.get('/', async (req, res) => await addresses_1.addressController.find(req, res));
     router.post('/', async (req, res) => await addresses_1.addressController.create(req, res));
     router.patch('/', async (req, res) => await addresses_1.addressController.update(req, res));
     router.delete('/', async (req, res) => await addresses_1.addressController.remove(req, res));

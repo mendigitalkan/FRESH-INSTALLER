@@ -7,8 +7,7 @@ const remove_1 = require("./remove");
 const update_1 = require("./update");
 exports.addressController = {
     create: create_1.createAddress,
-    findAll: find_1.findAllAddress,
-    findOne: find_1.findDetailAddress,
+    find: find_1.findAddress,
     remove: remove_1.removeAddress,
     update: update_1.updateAddress
 };

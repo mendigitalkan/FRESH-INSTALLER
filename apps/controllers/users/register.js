@@ -8,10 +8,17 @@ const user_1 = require("../../models/user");
 const requestCheker_1 = require("../../utilities/requestCheker");
 const scure_password_1 = require("../../utilities/scure_password");
 const uuid_1 = require("uuid");
+const generateUniqueId_1 = require("../../utilities/generateUniqueId");
 const userRegister = async (req, res) => {
     const requestBody = req.body;
     const emptyField = (0, requestCheker_1.requestChecker)({
-        requireList: ['userName', 'userEmail', 'userPassword', 'userWhatsAppNumber'],
+        requireList: [
+            'userName',
+            'userEmail',
+            'userPassword',
+            'userWhatsAppNumber',
+            'userGender'
+        ],
         requestData: requestBody
     });
     if (emptyField.length > 0) {
@@ -24,15 +31,20 @@ const userRegister = async (req, res) => {
             raw: true,
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                userEmail: { [sequelize_1.Op.eq]: requestBody.userEmail }
+                [sequelize_1.Op.or]: [
+                    { userEmail: { [sequelize_1.Op.eq]: requestBody.userEmail } },
+                    { userWhatsAppNumber: { [sequelize_1.Op.eq]: requestBody.userWhatsAppNumber } }
+                ]
             }
         });
         if (user != null) {
-            const message = `Email ${user.userEmail} sudah terdaftar. Silahkan gunakan email lain.`;
+            const message = `Email ${requestBody.userEmail} atau WA ${requestBody.userWhatsAppNumber} sudah terdaftar. Silahkan gunakan yang lain.`;
             const response = response_1.ResponseData.error(message);
             return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response);
         }
         requestBody.userPassword = (0, scure_password_1.hashPassword)(requestBody.userPassword);
+        requestBody.userPartnerCode =
+            (0, generateUniqueId_1.generateUniqueId)() + '-' + requestBody.userWhatsAppNumber;
         requestBody.userId = (0, uuid_1.v4)();
         await user_1.UserModel.create(requestBody);
         const response = response_1.ResponseData.default;

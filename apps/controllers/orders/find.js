@@ -9,19 +9,43 @@ const requestCheker_1 = require("../../utilities/requestCheker");
 const log_1 = require("../../utilities/log");
 const orders_1 = require("../../models/orders");
 const products_1 = require("../../models/products");
+const user_1 = require("../../models/user");
+const address_1 = require("../../models/address");
 const findAllOrder = async (req, res) => {
     try {
+        const user = await user_1.UserModel.findOne({
+            where: {
+                deleted: { [sequelize_1.Op.eq]: 0 },
+                userId: req.body?.user?.userId
+            }
+        });
         const page = new pagination_1.Pagination(parseInt(req.query.page) ?? 0, parseInt(req.query.size) ?? 10);
         const result = await orders_1.OrdersModel.findAndCountAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                ...(Boolean(req.query.search) && {
-                    [sequelize_1.Op.or]: [{ orderProductName: { [sequelize_1.Op.like]: `%${req.query.search}%` } }]
+                ...(Boolean(user?.dataValues.userRole === 'user') && {
+                    orderUserId: { [sequelize_1.Op.eq]: req.body?.user?.userId },
+                    orderStatus: { [sequelize_1.Op.not]: 'done' }
+                }),
+                ...(Boolean(req.query?.orderStatus) && {
+                    orderStatus: { [sequelize_1.Op.eq]: req.query.orderStatus }
                 })
             },
             include: [
                 {
+                    model: user_1.UserModel,
+                    where: {
+                        deleted: { [sequelize_1.Op.eq]: 0 }
+                    },
+                    attributes: ['userName']
+                },
+                {
                     model: products_1.ProductModel,
+                    where: {
+                        ...(Boolean(req.query.search) && {
+                            [sequelize_1.Op.or]: [{ productName: { [sequelize_1.Op.like]: `%${req.query.search}%` } }]
+                        })
+                    },
                     attributes: [
                         'productId',
                         'productName',
@@ -68,7 +92,22 @@ const findDetailOrder = async (req, res) => {
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
                 orderId: { [sequelize_1.Op.eq]: requestParams.orderId }
-            }
+            },
+            include: [
+                {
+                    model: products_1.ProductModel
+                },
+                {
+                    model: address_1.AddressesModel
+                },
+                {
+                    model: user_1.UserModel,
+                    where: {
+                        deleted: { [sequelize_1.Op.eq]: 0 }
+                    },
+                    attributes: ['userName', 'userEmail', 'userWhatsAppNumber', 'userCoin']
+                }
+            ]
         });
         if (result == null) {
             const message = 'not found!';

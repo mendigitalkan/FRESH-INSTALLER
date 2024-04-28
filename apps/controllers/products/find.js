@@ -11,13 +11,14 @@ const products_1 = require("../../models/products");
 const findAllProducts = async (req, res) => {
     try {
         const page = new pagination_1.Pagination(parseInt(req.query.page) ?? 0, parseInt(req.query.size) ?? 10);
-        console.log('product__________');
-        console.log(req.query);
         const result = await products_1.ProductModel.findAndCountAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
                 ...(Boolean(req.query.search) && {
-                    [sequelize_1.Op.or]: [{ productName: { [sequelize_1.Op.like]: `%${req.query.search}%` } }]
+                    [sequelize_1.Op.or]: [
+                        { productName: { [sequelize_1.Op.like]: `%${req.query.search}%` } },
+                        { productCategoryName: { [sequelize_1.Op.like]: `%${req.query.search}%` } }
+                    ]
                 })
             },
             order: [['id', 'desc']],

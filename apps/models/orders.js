@@ -6,6 +6,8 @@ const sequelize_1 = require("sequelize");
 const _1 = require(".");
 const zygote_1 = require("./zygote");
 const products_1 = require("./products");
+const user_1 = require("./user");
+const address_1 = require("./address");
 exports.OrdersModel = _1.sequelize.define('orders', {
     ...zygote_1.ZygoteModel,
     orderId: {
@@ -49,6 +51,11 @@ exports.OrdersModel = _1.sequelize.define('orders', {
         type: sequelize_1.DataTypes.ENUM('waiting', 'process', 'delivery', 'done', 'cancel'),
         allowNull: false,
         defaultValue: 'waiting'
+    },
+    orderTransferBankImage: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null
     }
 }, {
     ..._1.sequelize,
@@ -63,4 +70,12 @@ exports.OrdersModel = _1.sequelize.define('orders', {
 exports.OrdersModel.hasOne(products_1.ProductModel, {
     sourceKey: 'orderProductId',
     foreignKey: 'productId'
+});
+exports.OrdersModel.hasOne(user_1.UserModel, {
+    sourceKey: 'orderUserId',
+    foreignKey: 'userId'
+});
+exports.OrdersModel.hasOne(address_1.AddressesModel, {
+    sourceKey: 'orderUserId',
+    foreignKey: 'addressUserId'
 });

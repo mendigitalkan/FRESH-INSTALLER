@@ -5,7 +5,6 @@ exports.ProductModel = void 0;
 const sequelize_1 = require("sequelize");
 const _1 = require(".");
 const zygote_1 = require("./zygote");
-const categories_1 = require("./categories");
 exports.ProductModel = _1.sequelize.define('products', {
     ...zygote_1.ZygoteModel,
     productId: {
@@ -29,8 +28,8 @@ exports.ProductModel = _1.sequelize.define('products', {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false
     },
-    productCategoryId: {
-        type: sequelize_1.DataTypes.STRING,
+    productCategoryName: {
+        type: sequelize_1.DataTypes.STRING(100),
         allowNull: false
     },
     productTotalSale: {
@@ -77,8 +76,4 @@ exports.ProductModel = _1.sequelize.define('products', {
     underscored: true,
     freezeTableName: true,
     engine: 'InnoDB'
-});
-exports.ProductModel.hasOne(categories_1.CategoriesModel, {
-    sourceKey: 'productCategoryId',
-    foreignKey: 'categoryId'
 });

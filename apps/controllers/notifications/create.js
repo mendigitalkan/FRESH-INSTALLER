@@ -53,7 +53,7 @@ const createNotification = async (req, res) => {
 };
 exports.createNotification = createNotification;
 const sendNotification = async ({ expoPushToken, data }) => {
-    const expo = new expo_server_sdk_1.Expo({ accessToken: process.env.ACCESS_TOKEN });
+    const expo = new expo_server_sdk_1.Expo({ accessToken: process.env.ACCESS_TOKEN, useFcmV1: false });
     const chunks = expo.chunkPushNotifications([{ to: expoPushToken, ...data }]);
     const tickets = [];
     for (const chunk of chunks) {

@@ -8,8 +8,9 @@ const zygote_1 = require("./zygote");
 exports.UserModel = _1.sequelize.define('users', {
     ...zygote_1.ZygoteModel,
     userId: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: false
+        type: sequelize_1.DataTypes.UUID,
+        allowNull: false,
+        defaultValue: (0, sequelize_1.UUIDV4)()
     },
     userName: {
         type: sequelize_1.DataTypes.STRING,
@@ -49,6 +50,15 @@ exports.UserModel = _1.sequelize.define('users', {
     userFcmId: {
         type: sequelize_1.DataTypes.STRING(250),
         allowNull: true
+    },
+    userGender: {
+        type: sequelize_1.DataTypes.ENUM('pria', 'wanita'),
+        allowNull: true,
+        defaultValue: null
+    },
+    userPartnerCode: {
+        type: sequelize_1.DataTypes.STRING(50),
+        allowNull: false
     }
 }, {
     ..._1.sequelize,
