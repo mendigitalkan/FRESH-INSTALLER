@@ -7,11 +7,11 @@ const sequelize_1 = require("sequelize");
 const pagination_1 = require("../../utilities/pagination");
 const requestCheker_1 = require("../../utilities/requestCheker");
 const log_1 = require("../../utilities/log");
-const categories_1 = require("../../models/categories");
+const category1_1 = require("../../models/category1");
 const findAllCategory = async (req, res) => {
     try {
         const page = new pagination_1.Pagination(parseInt(req.query.page) ?? 0, parseInt(req.query.size) ?? 10);
-        const result = await categories_1.CategoriesModel.findAndCountAll({
+        const result = await category1_1.CategoriesModel.findAndCountAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
                 ...(Boolean(req.query.search) && {
@@ -48,10 +48,10 @@ const findDetailCategory = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response);
     }
     try {
-        const result = await categories_1.CategoriesModel.findOne({
+        const result = await category1_1.CategoriesModel.findOne({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                categoryId: { [sequelize_1.Op.eq]: requestParams.categoryId }
+                categoryId1: { [sequelize_1.Op.eq]: requestParams.categoryId1 }
             }
         });
         if (result == null) {

@@ -6,7 +6,6 @@ const user_router_1 = require("./user-router");
 const upload_file_route_1 = require("./upload-file-route");
 const productRouter_1 = require("./productRouter");
 const orderRouter_1 = require("./orderRouter");
-const categoryRouter_1 = require("./categoryRouter");
 const addressRouter_1 = require("./addressRouter");
 const transactionRoutes_1 = require("./transactionRoutes");
 const statisticRouter_1 = require("./statisticRouter");
@@ -20,6 +19,9 @@ const twilioSettingRouter_1 = require("./twilioSettingRouter");
 const waBlasRouter_1 = require("./waBlasRouter");
 const bankSettingRouter_1 = require("./bankSettingRouter");
 const myProfileRouter_1 = require("./myProfileRouter");
+const category1Router_1 = require("./category1Router");
+const category2Router_1 = require("./category2Router");
+const category3Router_1 = require("./category3Router");
 const appRouterV1 = (app) => {
     app.get('/api/v1', async (req, res) => await (0, controllers_1.index)(req, res));
     (0, upload_file_route_1.uploadFileRoutes)(app);
@@ -27,7 +29,9 @@ const appRouterV1 = (app) => {
     (0, user_router_1.userRoutes)(app);
     (0, productRouter_1.productRoutes)(app);
     (0, orderRouter_1.orderRoutes)(app);
-    (0, categoryRouter_1.categoryRoutes)(app);
+    (0, category1Router_1.category1Routes)(app);
+    (0, category2Router_1.category2Routes)(app);
+    (0, category3Router_1.category3Routes)(app);
     (0, addressRouter_1.addressRoutes)(app);
     (0, myAddressRouter_1.myAddressRoutes)(app);
     (0, myProfileRouter_1.myProfileRouter)(app);

@@ -5,11 +5,11 @@ const http_status_codes_1 = require("http-status-codes");
 const response_1 = require("../../utilities/response");
 const sequelize_1 = require("sequelize");
 const requestCheker_1 = require("../../utilities/requestCheker");
-const category1_1 = require("../../models/category1");
+const category3_1 = require("../../models/category3");
 const removeCategory = async (req, res) => {
     const requestQuery = req.query;
     const emptyField = (0, requestCheker_1.requestChecker)({
-        requireList: ['categoryId'],
+        requireList: ['categoryId3'],
         requestData: requestQuery
     });
     if (emptyField.length > 0) {
@@ -18,10 +18,10 @@ const removeCategory = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response);
     }
     try {
-        const result = await category1_1.CategoriesModel.findOne({
+        const result = await category3_1.Category3Model.findOne({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                categoryId1: { [sequelize_1.Op.eq]: requestQuery.categoryId1 }
+                categoryId3: { [sequelize_1.Op.eq]: requestQuery.categoryId3 }
             }
         });
         if (result == null) {

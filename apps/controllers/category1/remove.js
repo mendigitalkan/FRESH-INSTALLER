@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCategory = void 0;
+exports.removeCategory = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const response_1 = require("../../utilities/response");
+const sequelize_1 = require("sequelize");
 const requestCheker_1 = require("../../utilities/requestCheker");
-const uuid_1 = require("uuid");
 const category1_1 = require("../../models/category1");
-const createCategory = async (req, res) => {
-    const requestBody = req.body;
+const removeCategory = async (req, res) => {
+    const requestQuery = req.query;
     const emptyField = (0, requestCheker_1.requestChecker)({
-        requireList: ['categoryName'],
-        requestData: requestBody
+        requireList: ['categoryId1'],
+        requestData: requestQuery
     });
     if (emptyField.length > 0) {
         const message = `invalid request parameter! require (${emptyField})`;
@@ -18,12 +18,22 @@ const createCategory = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response);
     }
     try {
-        requestBody.categoryId1 = (0, uuid_1.v4)();
-        await category1_1.Category1Model.create(requestBody);
+        const result = await category1_1.Category1Model.findOne({
+            where: {
+                deleted: { [sequelize_1.Op.eq]: 0 },
+                categoryId1: { [sequelize_1.Op.eq]: requestQuery.categoryId1 }
+            }
+        });
+        if (result == null) {
+            const message = 'category not found!';
+            const response = response_1.ResponseData.error(message);
+            return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response);
+        }
+        result.deleted = 1;
+        void result.save();
         const response = response_1.ResponseData.default;
-        const result = { message: 'success' };
-        response.data = result;
-        return res.status(http_status_codes_1.StatusCodes.CREATED).json(response);
+        response.data = { message: 'success' };
+        return res.status(http_status_codes_1.StatusCodes.OK).json(response);
     }
     catch (error) {
         const message = `unable to process request! error ${error.message}`;
@@ -31,4 +41,4 @@ const createCategory = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json(response);
     }
 };
-exports.createCategory = createCategory;
+exports.removeCategory = removeCategory;

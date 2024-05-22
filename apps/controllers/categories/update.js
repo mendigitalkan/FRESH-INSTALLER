@@ -5,7 +5,7 @@ const http_status_codes_1 = require("http-status-codes");
 const response_1 = require("../../utilities/response");
 const sequelize_1 = require("sequelize");
 const requestCheker_1 = require("../../utilities/requestCheker");
-const categories_1 = require("../../models/categories");
+const category1_1 = require("../../models/category1");
 const updateCategory = async (req, res) => {
     const requestBody = req.body;
     const emptyField = (0, requestCheker_1.requestChecker)({
@@ -18,10 +18,10 @@ const updateCategory = async (req, res) => {
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response);
     }
     try {
-        const result = await categories_1.CategoriesModel.findOne({
+        const result = await category1_1.CategoriesModel.findOne({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                categoryId: { [sequelize_1.Op.eq]: requestBody.categoryId }
+                categoryId1: { [sequelize_1.Op.eq]: requestBody.categoryId1 }
             }
         });
         if (result == null) {
@@ -30,14 +30,32 @@ const updateCategory = async (req, res) => {
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response);
         }
         const newData = {
-            ...(requestBody.categoryName.length > 0 && {
-                categoryName: requestBody.categoryName
+            ...(requestBody.categoryIcon.length > 0 && {
+                categoryIcon: requestBody.categoryIcon
+            }),
+            ...(requestBody.categoryId1.length > 0 && {
+                categoryId1: requestBody.categoryId1
+            }),
+            ...(requestBody.categoryName1.length > 0 && {
+                categoryName1: requestBody.categoryName1
+            }),
+            ...(requestBody.categoryId2.length > 0 && {
+                categoryId2: requestBody.categoryId2
+            }),
+            ...(requestBody.categoryName2.length > 0 && {
+                categoryName2: requestBody.categoryName2
+            }),
+            ...(requestBody.categoryId3.length > 0 && {
+                categoryId3: requestBody.categoryId3
+            }),
+            ...(requestBody.categoryName3.length > 0 && {
+                categoryName3: requestBody.categoryName3
             })
         };
-        await categories_1.CategoriesModel.update(newData, {
+        await category1_1.CategoriesModel.update(newData, {
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                categoryId: { [sequelize_1.Op.eq]: requestBody.categoryId }
+                categoryId1: { [sequelize_1.Op.eq]: requestBody.categoryId1 }
             }
         });
         const response = response_1.ResponseData.default;

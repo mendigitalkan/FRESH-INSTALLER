@@ -5,6 +5,9 @@ exports.ProductModel = void 0;
 const sequelize_1 = require("sequelize");
 const _1 = require(".");
 const zygote_1 = require("./zygote");
+const category3_1 = require("./category3");
+const category2_1 = require("./category2");
+const category1_1 = require("./category1");
 exports.ProductModel = _1.sequelize.define('products', {
     ...zygote_1.ZygoteModel,
     productId: {
@@ -25,10 +28,18 @@ exports.ProductModel = _1.sequelize.define('products', {
         allowNull: false
     },
     productPrice: {
-        type: sequelize_1.DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.DECIMAL,
         allowNull: false
     },
-    productCategoryName: {
+    productCategoryId1: {
+        type: sequelize_1.DataTypes.STRING(100),
+        allowNull: false
+    },
+    productCategoryId2: {
+        type: sequelize_1.DataTypes.STRING(100),
+        allowNull: false
+    },
+    productCategoryId3: {
         type: sequelize_1.DataTypes.STRING(100),
         allowNull: false
     },
@@ -76,4 +87,16 @@ exports.ProductModel = _1.sequelize.define('products', {
     underscored: true,
     freezeTableName: true,
     engine: 'InnoDB'
+});
+exports.ProductModel.hasOne(category1_1.Category1Model, {
+    sourceKey: 'productCategoryId1',
+    foreignKey: 'categoryId1'
+});
+exports.ProductModel.hasOne(category2_1.Category2Model, {
+    sourceKey: 'productCategoryId2',
+    foreignKey: 'categoryId2'
+});
+exports.ProductModel.hasOne(category3_1.Category3Model, {
+    sourceKey: 'productCategoryId3',
+    foreignKey: 'categoryId3'
 });
