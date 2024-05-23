@@ -63,7 +63,12 @@ const findDetailProduct = async (req, res) => {
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
                 productId: { [sequelize_1.Op.eq]: requestParams.productId }
-            }
+            },
+            include: [
+                { model: category1_1.Category1Model },
+                { model: category2_1.Category2Model },
+                { model: category3_1.Category3Model }
+            ]
         });
         if (result == null) {
             const message = 'not found!';
