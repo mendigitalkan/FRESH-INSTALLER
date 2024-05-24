@@ -13,7 +13,7 @@ const category3Routes = (app) => {
     const router = express_1.default.Router();
     app.use('/api/v1/category3', middlewares_1.middleware.useAuthorization, router);
     router.get('/', async (req, res) => await category3_1.category3Controller.findAll(req, res));
-    router.get('/detail/:categoryId3', async (req, res) => await category3_1.category3Controller.findOne(req, res));
+    router.get('/detail/', async (req, res) => await category3_1.category3Controller.findOne(req, res));
     router.post('/', async (req, res) => await category3_1.category3Controller.create(req, res));
     router.patch('/', async (req, res) => await category3_1.category3Controller.update(req, res));
     router.delete('/', async (req, res) => await category3_1.category3Controller.remove(req, res));

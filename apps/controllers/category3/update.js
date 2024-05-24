@@ -21,11 +21,13 @@ const updateCategory = async (req, res) => {
         const result = await category3_1.Category3Model.findOne({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
+                categoryId1: { [sequelize_1.Op.eq]: requestBody.categoryId1 },
+                categoryId2: { [sequelize_1.Op.eq]: requestBody.categoryId2 },
                 categoryId3: { [sequelize_1.Op.eq]: requestBody.categoryId3 }
             }
         });
         if (result == null) {
-            const message = 'not found!';
+            const message = 'category not found!';
             const response = response_1.ResponseData.error(message);
             return res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json(response);
         }

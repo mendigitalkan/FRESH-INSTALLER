@@ -13,7 +13,7 @@ const category2Routes = (app) => {
     const router = express_1.default.Router();
     app.use('/api/v1/category2', middlewares_1.middleware.useAuthorization, router);
     router.get('/', async (req, res) => await category2_1.category2Controller.findAll(req, res));
-    router.get('/detail/:categoryId2', async (req, res) => await category2_1.category2Controller.findOne(req, res));
+    router.get('/detail/:categoryId1/:categoryId2', async (req, res) => await category2_1.category2Controller.findOne(req, res));
     router.post('/', async (req, res) => await category2_1.category2Controller.create(req, res));
     router.patch('/', async (req, res) => await category2_1.category2Controller.update(req, res));
     router.delete('/', async (req, res) => await category2_1.category2Controller.remove(req, res));

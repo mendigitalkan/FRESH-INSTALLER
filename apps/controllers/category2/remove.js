@@ -9,7 +9,7 @@ const category2_1 = require("../../models/category2");
 const removeCategory = async (req, res) => {
     const requestQuery = req.query;
     const emptyField = (0, requestCheker_1.requestChecker)({
-        requireList: ['categoryId2'],
+        requireList: ['categoryId1', 'categoryId2'],
         requestData: requestQuery
     });
     if (emptyField.length > 0) {
@@ -21,6 +21,7 @@ const removeCategory = async (req, res) => {
         const result = await category2_1.Category2Model.findOne({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
+                categoryId1: { [sequelize_1.Op.eq]: requestQuery.categoryId1 },
                 categoryId2: { [sequelize_1.Op.eq]: requestQuery.categoryId2 }
             }
         });

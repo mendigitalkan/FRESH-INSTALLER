@@ -10,10 +10,10 @@ const log_1 = require("../../utilities/log");
 const category2_1 = require("../../models/category2");
 const category1_1 = require("../../models/category1");
 const findAllCategory = async (req, res) => {
-    const requestQuery = req.query;
+    const requestParams = req.query;
     const emptyField = (0, requestCheker_1.requestChecker)({
         requireList: ['categoryId1'],
-        requestData: requestQuery
+        requestData: requestParams
     });
     if (emptyField.length > 0) {
         const message = `invalid request parameter! require (${emptyField})`;
@@ -25,7 +25,7 @@ const findAllCategory = async (req, res) => {
         const result = await category2_1.Category2Model.findAndCountAll({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                categoryId1: { [sequelize_1.Op.eq]: requestQuery.categoryId1 },
+                categoryId1: { [sequelize_1.Op.eq]: requestParams.categoryId1 },
                 ...(Boolean(req.query.search) && {
                     [sequelize_1.Op.or]: [{ categoryName: { [sequelize_1.Op.like]: `%${req.query.search}%` } }]
                 })
@@ -50,13 +50,14 @@ const findAllCategory = async (req, res) => {
 };
 exports.findAllCategory = findAllCategory;
 const findDetailCategory = async (req, res) => {
-    const requestQuery = req.body;
+    const requestParams = req.params;
+    console.log(requestParams);
     const emptyField = (0, requestCheker_1.requestChecker)({
         requireList: ['categoryId1', 'categoryId2'],
-        requestData: requestQuery
+        requestData: requestParams
     });
     if (emptyField.length > 0) {
-        const message = `invalid request parameter! require (${emptyField})`;
+        const message = `invalid request parameter! require(${emptyField})`;
         const response = response_1.ResponseData.error(message);
         return res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json(response);
     }
@@ -64,8 +65,8 @@ const findDetailCategory = async (req, res) => {
         const result = await category2_1.Category2Model.findOne({
             where: {
                 deleted: { [sequelize_1.Op.eq]: 0 },
-                categoryId1: { [sequelize_1.Op.eq]: requestQuery.categoryId1 },
-                categoryId2: { [sequelize_1.Op.eq]: requestQuery.categoryId2 }
+                categoryId1: { [sequelize_1.Op.eq]: requestParams.categoryId1 },
+                categoryId2: { [sequelize_1.Op.eq]: requestParams.categoryId2 }
             }
         });
         if (result == null) {

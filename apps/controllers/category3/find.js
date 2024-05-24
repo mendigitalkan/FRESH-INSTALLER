@@ -61,7 +61,8 @@ const findAllCategory = async (req, res) => {
 };
 exports.findAllCategory = findAllCategory;
 const findDetailCategory = async (req, res) => {
-    const requestQuery = req.body;
+    const requestQuery = req.query;
+    console.log(requestQuery);
     const emptyField = (0, requestCheker_1.requestChecker)({
         requireList: ['categoryId1', 'categoryId2', 'categoryId3'],
         requestData: requestQuery
